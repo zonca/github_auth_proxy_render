@@ -28,15 +28,26 @@ app.post("/get-device-code", async (req, res) => {
 // Exchange code for access token
 app.post("/exchange-token", async (req, res) => {
     const { code } = req.body;
+    if (!code) {
+        return res.status(400).json({ error: "Missing authorization code" });
+    }
+
     try {
+        console.log("Exchanging code:", code);
+
         const response = await axios.post("https://github.com/login/oauth/access_token", {
             client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
             code: code,
         }, { headers: { "Accept": "application/json" } });
 
+        if (response.data.error) {
+            throw new Error(response.data.error);
+        }
+
         res.json(response.data);
     } catch (error) {
+        console.error("Error exchanging code:", error.response?.data || error.message);
         res.status(500).json({ error: "Error exchanging code for token", details: error.response?.data || error.message });
     }
 });
