@@ -41,15 +41,18 @@ app.post("/exchange-token", async (req, res) => {
             code: code,
         }, { headers: { "Accept": "application/json" } });
 
+        console.log("GitHub Response:", response.data); // Log full response
+
         if (response.data.error) {
-            throw new Error(response.data.error);
+            throw new Error(response.data.error_description || response.data.error);
         }
 
         res.json(response.data);
     } catch (error) {
-        console.error("Error exchanging code:", error.response?.data || error.message);
+        console.error("Error exchanging code for token:", error.response?.data || error.message);
         res.status(500).json({ error: "Error exchanging code for token", details: error.response?.data || error.message });
     }
 });
+
 
 app.listen(3000, () => console.log("CORS Proxy running on port 3000"));
