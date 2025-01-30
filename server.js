@@ -9,7 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 const CLIENT_ID = "Ov23liQtoXTUMiE8nnxf";
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 // Request device code from GitHub
 app.post("/get-device-code", async (req, res) => {
