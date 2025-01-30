@@ -19,6 +19,7 @@ app.post("/get-device-code", async (req, res) => {
             scope: "repo user",
         }, { headers: { "Accept": "application/json" } });
 
+        console.log("GitHub Response:", response.data);
         res.json(response.data);
     } catch (error) {
         res.status(500).json({ error: "Error requesting device code", details: error.response?.data || error.message });
@@ -35,11 +36,17 @@ app.post("/exchange-token", async (req, res) => {
     try {
         console.log("Exchanging code:", code);
 
+        console.log("Requesting access token with code:", code);
+        console.log("Client ID:", CLIENT_ID);
+        console.log("Client Secret:", CLIENT_SECRET);
+
         const response = await axios.post("https://github.com/login/oauth/access_token", {
             client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
             code: code,
         }, { headers: { "Accept": "application/json" } });
+
+        console.log("GitHub Response:", response.data); // Log full response
 
         console.log("GitHub Response:", response.data); // Log full response
 
