@@ -34,13 +34,12 @@ app.post("/exchange-token", async (req, res) => {
     }
 
     try {
-        axios.defaults.withCredentials = true;
-
         const response = await axios.post("https://github.com/login/device/access_token", {
             client_id: CLIENT_ID,
             device_code: code,
             grant_type: "urn:ietf:params:oauth:grant-type:device_code"
         }, { 
+            withCredentials: true,
             headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
