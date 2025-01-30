@@ -3,8 +3,15 @@ import base64
 import datetime
 import os
 
+
 class GitHubUploader:
-    def __init__(self, token_file=".github_access_token", github_user="zonca", repo_name="github_auth_proxy_render", branch="main"):
+    def __init__(
+        self,
+        token_file=".github_access_token",
+        github_user="zonca",
+        repo_name="github_auth_proxy_render",
+        branch="main",
+    ):
         self.token_file = token_file
         self.github_user = github_user
         self.repo_name = repo_name
@@ -57,6 +64,8 @@ class GitHubUploader:
         # Print results
         if response.status_code in [200, 201]:
             print(f"✅ Successfully uploaded: {new_filename}")
-            print(f"🔗 View it here: {response.json().get('content', {}).get('html_url', 'URL not available')}")
+            print(
+                f"🔗 View it here: {response.json().get('content', {}).get('html_url', 'URL not available')}"
+            )
         else:
             print(f"❌ Upload failed: {response.status_code} - {response.json()}")
