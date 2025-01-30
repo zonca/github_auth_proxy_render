@@ -34,16 +34,19 @@ app.post("/exchange-token", async (req, res) => {
     }
 
     try {
-        const response = await axios.post("https://github.com/login/device/access_token", { // Changed endpoint
+        const response = await axios.post("https://github.com/login/device/access_token", {
             client_id: CLIENT_ID,
-            device_code: code, // Changed parameter name
-            grant_type: "urn:ietf:params:oauth:grant-type:device_code" // Added grant_type
+            client_secret: CLIENT_SECRET,  // Added client_secret
+            device_code: code,
+            grant_type: "urn:ietf:params:oauth:grant-type:device_code"
         }, { 
-            headers: { "Accept": "application/json" }
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
         });
 
-        console.log("GitHub Response:", response.data); // Log full response
-
+        console.log("GitHub Response:", response.data);
 
         if (response.data.error) {
             throw new Error(response.data.error_description || response.data.error);
